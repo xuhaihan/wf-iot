@@ -259,13 +259,15 @@ accountId|string|企业id
 请求地址|请求方式
 -|-
 https://cloud.warpfuture.com/iot/auth/userToDev|Post
-####请求参数
-名称| 类型| 说明
+
+请求参数
+名称|类型|说明
 ---|---|---
 applicationId|string|应用id
 userId|string|应用下对应用户id
 deviceId|string|设备id
-####返回参数
+
+返回参数
 名称|类型|说明
 -|-|-
 code|int|状态码
