@@ -262,7 +262,7 @@ https://cloud.warpfuture.com/iot/auth/userToDev|Post
 
 请求参数
 名称|类型|说明
----|---|---
+-|-|-
 applicationId|string|应用id
 userId|string|应用下对应用户id
 deviceId|string|设备id
@@ -550,13 +550,6 @@ expand|string|不能为空|拓展字段
 3003|method not support|方法不支持
 3004|server error|服务错误
 3005|server response error|服务应答错误
-
-  
-
-
-
-  
-
 
 
 [1]:https://thumbnail0.baidupcs.com/thumbnail/c0de3b2ea9b208c5481e7400adbac343?fid=2360090255-250528-504853889458277&amp;time=1523041200&amp;rt=sh&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-oom%2FaRhJQ9228%2BBrxSc44QcNnOQ%3D&amp;expires=8h&amp;chkv=0&amp;chkbd=0&amp;chkpc=&amp;dp-logid=9146941436977920599&amp;dp-callid=0&amp;size=c710_u400&amp;quality=100&amp;vuk=-&amp;ft=video
