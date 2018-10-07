@@ -188,7 +188,7 @@ app与云端通信协议的数据格式如下：
 #### **token校验**
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app通过负载均衡节点查询获取到连接地址后建立websocket连接带上token参数，云端获取到token调用token校验接口去校验token的合法性质。若token校验合法，返回userId给云端。
 
-**token校验API**
+##### token校验API
 请求地址|请求方式
 -|-
 
@@ -251,7 +251,7 @@ accountId|string|企业id
 #### **用户鉴权**
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;云端对token成功进行校验之后，将接收到的userId、deviceId，applicationId这些参数传递给用户鉴权服务，检验用户是否具有对设备的权限。若检验成功，则将数据封装成app到云端下发的数据格式放到kafka。若校验不成功，则断开这个连接。
 
-**用户鉴权API**
+##### **用户鉴权API**
 请求地址|请求方式
 -|-
 https://cloud.warpfuture.com/iot/auth/userToDev | Post
