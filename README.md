@@ -266,7 +266,6 @@ https://cloud.warpfuture.com/iot/auth/userToDev|Post
 applicationId|string|应用id
 userId|string|应用下对应用户id
 deviceId|string|设备id
-
 返回参数
 名称|类型|说明
 -|-|-
