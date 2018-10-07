@@ -255,10 +255,10 @@ accountId|string|企业id
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;云端对token成功进行校验之后，将接收到的userId、deviceId，applicationId这些参数传递给用户鉴权服务，检验用户是否具有对设备的权限。若检验成功，则将数据封装成app到云端下发的数据格式放到kafka。若校验不成功，则断开这个连接。
 
 **用户鉴权API**
-
 请求地址|请求方式
 -|-
-https://cloud.warpfuture.com/iot/auth/userToDev|Post
+https://cloud.warpfuture.com/iot/auth/userToDev | Post
+
 请求参数
 名称|类型|说明
 -|-|-
