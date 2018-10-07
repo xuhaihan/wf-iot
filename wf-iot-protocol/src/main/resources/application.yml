@@ -1,0 +1,92 @@
+#stream kafka binder配置
+spring:
+  data:
+    cassandra:
+        keyspace-name: wf_iot
+        port: 9042
+        contactpoints: 10.10.2.21
+
+  cloud:
+    bus:
+        enabled: true
+    stream:
+      kafka:
+        binder:
+          brokers: 10.10.2.21:9092
+          minPartitionCount: 1
+          autoCreateTopics: true
+          autoAddPartitions: false
+#stream 输入通道配置
+      bindings:
+        c1:
+          destination: wf_iot_data
+          group: wf-iot-data1
+          consumer:
+            concurrency: 3
+            partitioned: false
+        c2:
+          destination: wf_iot_login
+          group: wf-iot-login1
+          consumer:
+            concurrency: 3
+            partitioned: false
+        c3:
+          destination: wf_iot_outline
+          group: wf-iot-outline1
+          consumer:
+            concurrency: 3
+            partitioned: false
+
+#stream 输出通道
+        p1:
+          destination: wf_iot_data
+          contentType: text/plain
+          producer:
+            partitionCount: 1
+        p2:
+          destination: wf_iot_login
+          contentType: text/plain
+          producer:
+            partitionCount: 1
+        p3:
+          destination: wf_iot_outline
+          contentType: text/plain
+          producer:
+            partitionCount: 1
+
+server:
+  port: 8081
+protocol:
+  wtt:
+    port: 1880
+    screen: false
+  ws:
+    port: 1881
+endpoints:
+  restart:
+    enabled: true
+wf:
+  iot:
+    ws:
+      isKillUser: false
+
+      userResponse: true
+
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "refresh"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: 10s
+      show-details: always
+  server:
+    port: 7081

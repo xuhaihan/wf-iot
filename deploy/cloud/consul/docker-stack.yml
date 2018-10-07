@@ -1,0 +1,57 @@
+version: "3.5"
+
+networks:
+  consul:
+    name: consul
+    external: true
+
+volumes:
+  consul-server-1:
+  consul-server-2:
+  consul-server-3:
+
+services:
+  consul-agent-1: &consul-agent
+    image: consul:latest
+    environment:
+      - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
+      - CONSUL_BIND_INTERFACE=eth0
+    networks:
+      - consul
+    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+
+  consul-agent-2:
+    <<: *consul-agent
+
+  consul-agent-3:
+    <<: *consul-agent
+
+  consul-server-1: &consul-server
+    <<: *consul-agent
+    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0"
+    volumes:
+      - consul-server-1:/consul/data
+
+  consul-server-2:
+    <<: *consul-server
+    volumes:
+      - consul-server-2:/consul/data
+
+  consul-server-bootstrap:
+    <<: *consul-agent
+    environment:
+      - CONSUL_BIND_INTERFACE=eth2
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+    volumes:
+      - consul-server-3:/consul/data

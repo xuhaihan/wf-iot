@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    consul:
+      host: 10.10.2.21
+      #host: localhost
+      port: 8500
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${server.port}:${random.value}
+        prefer-ip-address: true
+        ip-address: 10.10.2.21
+        #ip-address: 127.0.0.1
+      config:
+             format: YAML
+  application:
+    name: wf-iot-oauth-service
+---
+spring:
+  profiles: docker
+  cloud:
+    consul:
+      host: consul-agent-1
+      port: 8500
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${server.port}:${random.value}
+        prefer-ip-address: false
+        hostname: oauth
+      config:
+             format: YAML
+  application:
+    name: wf-iot-oauth-service

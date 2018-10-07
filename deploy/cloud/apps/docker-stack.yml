@@ -1,0 +1,172 @@
+version: "3.5"
+
+networks:
+  consul:
+    name: consul
+    external: true
+  default:
+    driver: overlay
+    attachable: true
+
+services:
+  device:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-device:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    depends_on:
+      - consul-agent-1
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  oauth:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-oauth:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    depends_on:
+      - consul-agent-1
+    ports:
+      - "8084:8084"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+  pay:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-pay:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    depends_on:
+      - consul-agent-1
+    ports:
+      - "8095:8095"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+
+  protocol:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-protocol:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - mode: host
+        protocol: tcp
+        published: 1880
+        target: 1880
+      - mode: host
+        protocol: tcp
+        published: 1881
+        target: 1881
+      - "8081:8081"
+    depends_on:
+      - consul-agent-1
+      - oauth
+      - device
+    deploy:
+      mode: global
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  production:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-production:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8088:8088"
+    depends_on:
+      - consul-agent-1
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  console:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-api-console:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8090:8090"
+    depends_on:
+      - consul-agent-1
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  enterprise:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-api-enterprise:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8091:8091"
+    depends_on:
+      - consul-agent-1
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"

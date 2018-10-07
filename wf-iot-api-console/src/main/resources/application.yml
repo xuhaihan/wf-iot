@@ -1,0 +1,55 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: wf-iot-api-console
+  output:
+    ansi:
+      enabled: detect
+  cloud:
+    bus:
+        enabled: true
+    stream:
+      kafka:
+        binder:
+          autoCreateTopics: true
+          autoAddPartitions: false
+#          brokers: outer.warpfuture.com:9092
+          brokers: 10.10.2.21:9092
+          minPartitionCount: 1
+  data:
+    cassandra:
+      keyspace-name: wf_iot
+      port: 9042
+      contactpoints: 10.10.2.21
+
+jwt:
+  token:
+    header: token
+    issuer: wf-uc
+    expiry: 1209600000 # 14天, 毫秒
+  keystore:
+    keystore: wf-uc.jks
+    alias: wfucAuth
+    storepass: Llp627#Bd21lI
+    keyalg: RSA
+    keypass: wfuc@ZJL184oG0
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "refresh"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: 10s
+      show-details: always
+  server:
+    port: 7090

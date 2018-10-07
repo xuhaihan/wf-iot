@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: wf-iot-oauth-service
+  cloud:
+      bus:
+          enabled: true
+      stream:
+        kafka:
+          binder:
+            autoCreateTopics: true
+            autoAddPartitions: false
+            #brokers: localhost:9092
+            brokers: 10.10.2.21:9092
+            minPartitionCount: 1
+  data:
+    mongodb:
+      database: iot
+      port: 27017
+      #host: localhost
+      host: 10.10.2.21
+    cassandra:
+      keyspace-name: wf_iot
+      port: 9042
+      contactpoints: 10.10.2.21
+#  resources:
+#    static-locations: classpath:/
+
+server:
+  #port: 8080
+  port: 8084
+
+
+wx:
+  h5:
+     #redirectUri:  http://dicbhdp.hk1.mofasuidao.cn/oauth/woa
+     #redirectUri: http://wfoauth.free.ngrok.cc/oauth/woa
+     redirectUri: http://oauth-gateway.warpfuture.com/oauth/woa
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "refresh"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: 10s
+      show-details: always
+  server:
+    port: 7084

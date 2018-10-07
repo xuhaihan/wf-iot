@@ -1,0 +1,33 @@
+spring:
+  cloud:
+    consul:
+#      host: 127.0.0.1
+      host: 10.10.2.21
+      port: 8500
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${server.port}:${random.value}
+        prefer-ip-address: true
+        ip-address: 10.10.2.21
+      config:
+        format: YAML
+  application:
+    name: wf-iot-production-service
+---
+spring:
+  profiles: docker
+  cloud:
+    consul:
+      host: consul-agent-1
+      port: 8500
+      discovery:
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${server.port}:${random.value}
+        prefer-ip-address: false
+        hostname: production
+        health-check-path: /actuator/health
+      config:
+        format: YAML
+  application:
+    name: wf-iot-production-service

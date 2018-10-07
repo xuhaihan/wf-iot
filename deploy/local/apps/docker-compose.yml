@@ -1,0 +1,109 @@
+version: "3.5"
+
+networks:
+  consul:
+    external: true
+  default:
+
+services:
+  device:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-device:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  oauth:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-oauth:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8084:8084"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  pay:
+      image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-pay:0.0.1-SNAPSHOT
+      networks:
+        - default
+        - consul
+      ports:
+        - "8095:8095"
+      restart: unless-stopped
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10M"
+          max-file: "10"
+
+  protocol:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-protocol:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8081:8081"
+      - "1880:1880"
+      - "1881:1881"
+    depends_on:
+      - oauth
+      - device
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  production:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-production:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8088:8088"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+
+  console:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-api-console:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  enterprise:
+    image: registry.cn-shenzhen.aliyuncs.com/warpfuture-iot/wf-iot-api-enterprise:0.0.1-SNAPSHOT
+    networks:
+      - default
+      - consul
+    ports:
+      - "8091:8091"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10M"
+        max-file: "10"

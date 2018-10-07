@@ -1,0 +1,8 @@
+create table wf_iot_notifyrecord(
+orderId varchar,
+accountId varchar,
+merchantId varchar,
+nums int,
+type int,
+recordTime timestamp,
+primary key(orderId,type));

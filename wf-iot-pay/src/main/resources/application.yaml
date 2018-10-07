@@ -1,0 +1,55 @@
+spring:
+  cloud:
+    bus:
+        enabled: true
+    stream:
+      kafka:
+        binder:
+          autoCreateTopics: true
+          autoAddPartitions: false
+          brokers: 10.10.2.21:9092
+          minPartitionCount: 1
+
+      bindings:
+              input:
+                destination: wf_iot_pay_notifyrecord
+                group: wf-iot-pay_notify
+                consumer:
+                     concurrency: 3
+                     partitioned: false
+
+      #stream 输出通道
+              output:
+                  destination: wf_iot_pay_notifyrecord
+                  contentType: text/plain
+                  producer:
+                   partitionCount: 1
+  data:
+    mongodb:
+      database: iot
+      port: 27017
+      host: 10.10.2.21
+    cassandra:
+          keyspace-name: wf_iot
+          port: 9042
+          contactpoints: 10.10.2.21
+server:
+  port: 8095
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "refresh"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: 10s
+      show-details: always
+  server:
+    port: 7095

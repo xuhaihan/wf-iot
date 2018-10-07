@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    bus:
+        enabled: true
+    stream:
+      kafka:
+        binder:
+          autoCreateTopics: true
+          autoAddPartitions: false
+#          brokers: 127.0.0.1:9092
+          brokers: 10.10.2.21:9092
+          minPartitionCount: 1
+  data:
+    mongodb:
+      database: iot
+      port: 27017
+#      host: 127.0.0.1
+      host: 10.10.2.21
+    cassandra:
+          keyspace-name: wf_iot
+          port: 9042
+          contactpoints: 10.10.2.21
+server:
+  port: 8088
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "refresh"
+  endpoint:
+    health:
+      enabled: true
+      cache:
+        time-to-live: 10s
+      show-details: always
+  server:
+    port: 7088

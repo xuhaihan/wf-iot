@@ -1,0 +1,7 @@
+create table wf_iot_historydata(
+historyDataId varchar,
+dataType int,
+dataTime timestamp,
+dataContent varchar,
+deviceIp varchar,
+primary key(historyDataId,dataTime,dataType));
