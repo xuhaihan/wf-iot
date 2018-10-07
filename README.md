@@ -256,15 +256,15 @@ accountId|string|企业id
 -|-
 https://cloud.warpfuture.com/iot/auth/userToDev | Post
 
-#####请求参数
+##### 请求参数
 名称|类型|说明
 -|-|-
 applicationId|string|应用id
 userId|string|应用下对应用户id
 deviceId|string|设备id
 
-#####返回参数
-名称|类型|说明
+##### 返回参数
+名称 | 类型| 说明
 -|-|-
 code|int|状态码
 message|string|消息描述
